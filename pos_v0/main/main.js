@@ -10,13 +10,13 @@ function printReceipt(inputs) {
 
 }
 
-function processItem(item, receipt) {
+function processItem(item, sum) {
 
   var count = item.count * item.price;
   count = count.toFixed(2);
   var temp = item.price;
   temp = temp.toFixed(2);
-  receipt.price += parseInt(count);
+  sum.price += parseInt(count);
   return '名称：' + item.name + '，' + '数量：' + item.count + item.unit + '，' + '单价：' + temp + '(元)，' + '小计：' + count + '(元)' + '\n';
 
 }
