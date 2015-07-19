@@ -5,7 +5,6 @@ function printReceipt(inputs) {
   for (var i = 0; i < inputs.length; i++) {
     countSameItem(inputs[i], inputsResult);
   }
-
   var receipt = receiptInfo(inputsResult);
   showResult(receipt);
 
