@@ -1,58 +1,67 @@
 //TODO: Please write code in this file.
 function printReceipt(inputs) {
+  var cartItems = [];
 
-  var result = [];
-  for (var i = 0; i < inputs.length; i++) {
-    var temp = findSameItem(inputs[i], result);
-    if (temp) {
-      temp.count += 1;
+  inputs.forEach(function (inputItem) {
+    var cartItem = findCartItem(cartItems, inputItem.barcode);
+    if (cartItem) {
+      cartItem.count++;
     }
-  }
-
-  showResult(result);
-
-}
-
-function findSameItem(item, result) {
-
-  for (var x = 0; x < result.length; x++) {
-    if (item.name === result[x].name) {
-      return result[x];
+    else {
+      cartItems.push({item: inputItem, count: 1});
     }
-  }
-  result.push({name: item.name, count: 1, price: item.price, unit: item.unit});
+  });
 
+  var receipt =
+    '***<没钱赚商店>收据***\n' +
+    getItemsString(cartItems) +
+    '----------------------\n' +
+    '总计：' + formatPrice(getAmount(cartItems)) + '(元)\n' +
+    '**********************';
+
+  console.log(receipt);
 }
 
-function showResult(inputs) {
-  var result = '***<没钱赚商店>收据***\n';
-  var sum = {price: 0};
+function findCartItem(cartItems, barcode) {
+  var foundCartItem=undefined;
 
-  for (var i = 0; i < inputs.length; i++) {
-    result += processItem(inputs[i], sum);
-  }
-  showReceipt(result, sum);
-
+  cartItems.forEach(function (cartItem) {
+    if (cartItem.item.barcode === barcode) {
+      foundCartItem = cartItem;
+      return false;
+    }
+  });
+  return foundCartItem;
 }
 
-function processItem(item, sum) {
-
-  var count = item.count * item.price;
-  count = count.toFixed(2);
-  var temp = item.price;
-  temp = temp.toFixed(2);
-  sum.price += parseInt(count);
-  return '名称：' + item.name + '，' + '数量：' + item.count + item.unit + '，' + '单价：' + temp + '(元)，' + '小计：' + count + '(元)' + '\n';
-
+function getSubTotal(count, price) {
+  return count * price;
 }
 
+function getAmount(cartItems) {
+  var amount = 0;
 
-function showReceipt(result, sum) {
+  cartItems.forEach(function (item) {
+    amount += getSubTotal(item.count, item.item.price);
+  });
 
-  sum.price = sum.price.toFixed(2);
-  result += '----------------------\n';
-  result += '总计：' + sum.price + '(元)\n';
-  result += '**********************';
-  console.log(result);
+  return amount;
+}
 
+function getItemsString(cartitems) {
+  var itemsString = '';
+
+  cartitems.forEach(function (cartitem) {
+    itemsString +=
+      '名称：' + cartitem.item.name +
+      '，数量：' + cartitem.count + cartitem.item.unit +
+      '，单价：' + formatPrice(cartitem.item.price) +
+      '(元)，小计：' + formatPrice(getSubTotal(cartitem.count, cartitem.item.price)) + '(元)\n';
+  });
+
+  return itemsString;
+}
+
+function formatPrice(price) {
+  return price.toFixed(2);
 }

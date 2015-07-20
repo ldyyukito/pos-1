@@ -1,33 +1,43 @@
 //TODO: Please write code in this file.
-function printReceipt(inputs) {
-  var result = '***<没钱赚商店>收据***\n';
-  var sum = {price: 0};
+function printReceipt(items) {
+  var receipt =
+    '***<没钱赚商店>收据***\n' +
+    getItemsString(items) +
+    '----------------------\n' +
+    '总计：' + formatPrice(getAmount(items)) + '(元)\n' +
+    '**********************';
 
-  for (var i = 0; i < inputs.length; i++) {
-    result += processItem(inputs[i], sum);
-  }
-  showReceipt(result, sum);
-
+  console.log(receipt);
 }
 
-function processItem(item, sum) {
-
-  var count = item.count * item.price;
-  count = count.toFixed(2);
-  var temp = item.price;
-  temp = temp.toFixed(2);
-  sum.price += parseInt(count);
-  return '名称：' + item.name + '，' + '数量：' + item.count + item.unit + '，' + '单价：' + temp + '(元)，' + '小计：' + count + '(元)' + '\n';
-
+function getSubTotal(count, price) {
+  return count * price;
 }
 
+function getAmount(items) {
+  var amount = 0;
 
-function showReceipt(result, sum) {
+  items.forEach(function (item) {
+    amount += getSubTotal(item.count, item.price);
+  });
 
-  sum.price = sum.price.toFixed(2);
-  result += '----------------------\n';
-  result += '总计：' + sum.price + '(元)\n';
-  result += '**********************';
-  console.log(result);
+  return amount;
+}
 
+function getItemsString(items) {
+  var itemsString = '';
+
+  items.forEach(function (item) {
+    itemsString +=
+      '名称：' + item.name +
+      '，数量：' + item.count + item.unit +
+      '，单价：' + formatPrice(item.price) +
+      '(元)，小计：' + formatPrice(getSubTotal(item.count, item.price)) + '(元)\n';
+  });
+
+  return itemsString;
+}
+
+function formatPrice(price) {
+  return price.toFixed(2);
 }
