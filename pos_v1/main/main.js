@@ -62,7 +62,7 @@ function getAllItems(barcodes, allItems) {
   var newBarcode;
 
   barcodes.forEach(function (barcode) {
-    if ((index = barcode.indexOf('-')) == -1) {
+    if ((index = barcode.indexOf('-')) === -1) {
       item = findItems(barcode, allItems);
       if (item)
         cartItems.push(item);
