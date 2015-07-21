@@ -49,6 +49,7 @@ function getSave(cartItems) {
 }
 
 function setPromotions(cartItems) {
+
   var promotions = loadPromotions();
   promotions.forEach(function (promotion) {
     if (promotion.type === 'BUY_TWO_GET_ONE_FREE') {
@@ -58,9 +59,7 @@ function setPromotions(cartItems) {
 
 }
 
-
 function buyTwoOneFree(promotion, cartItems) {
-
   cartItems.forEach(function (item) {
     getPromotionItem(item, promotion);
   });
@@ -76,46 +75,53 @@ function getPromotionItem(item, promotion) {
 
 function getAllItems(Tags, allItems) {
   var cartItems = [];
-  var index = 0;
-  var newBarcode;
+  var newTag;
 
   Tags.forEach(function (tag) {
-    if ((index = tag.indexOf('-')) === -1) {
-      item = findItems(tag, allItems);
-      if (item)
-        cartItems.push(item);
+    var existHyphen = isHyphen(tag);
+    var tagNumber = 1;
+    newTag = tag;
+
+    if (existHyphen) {
+      newTag = tag.split('-');
+      tagNumber = newTag[1];
+      newTag = newTag[0];
     }
-    else {
-      newBarcode = tag.substring(0, index);
-      item = findItems(newBarcode, allItems);
-      if (item) {
-        for (var x = 0; x < tag.charAt(index + 1); x++)
-          cartItems.push(item);
+    item = findItem(newTag, allItems);
+    if (item) {
+      for (var x = 1; x <= tagNumber; x++) {
+        cartItems.push(item);
       }
     }
   });
+
   return cartItems;
 }
 
-function findItems(barcode, allItems) {
-  var foundItems = undefined;
+function isHyphen(tag) {
+  return tag.indexOf('-') != -1;
+}
+
+function findItem(barcode, allItems) {
+  var foundItem = undefined;
   allItems.forEach(function (item) {
     if (item.barcode === barcode) {
-      foundItems = item;
+      foundItem = item;
       return true;
     }
   });
-  return foundItems;
+  return foundItem;
 }
 
-function getCartItems(cartInputs, cartItems) {
-  cartInputs.forEach(function (inputItem) {
-    var Item = findCartItem(cartItems, inputItem.barcode);
+function getCartItems(allItemsResults, cartItems) {
+
+  allItemsResults.forEach(function (allItem) {
+    var Item = findCartItem(cartItems, allItem.barcode);
     if (Item) {
       Item.count++;
     }
     else {
-      cartItems.push({item: inputItem, count: 1, freeCount: 0});
+      cartItems.push({item: allItem, count: 1, freeCount: 0});
     }
   });
 }
@@ -136,7 +142,6 @@ function findCartItem(cartItems, barcode) {
 
 function getSubTotal(count, freecount, price) {
   return (count - freecount) * price;
-
 }
 
 function getAmount(cartItems) {
