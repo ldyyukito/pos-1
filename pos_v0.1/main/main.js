@@ -1,16 +1,8 @@
 //TODO: Please write code in this file.
-function printReceipt(inputs) {
+function printReceipt(cartInputs) {
   var cartItems = [];
 
-  inputs.forEach(function (inputItem) {
-    var cartItem = findCartItem(cartItems, inputItem.barcode);
-    if (cartItem) {
-      cartItem.count++;
-    }
-    else {
-      cartItems.push({item: inputItem, count: 1});
-    }
-  });
+  getCartItems(cartInputs, cartItems);
 
   var receipt =
     '***<没钱赚商店>收据***\n' +
@@ -22,8 +14,21 @@ function printReceipt(inputs) {
   console.log(receipt);
 }
 
+
+function getCartItems(cartInputs, cartItems) {
+  cartInputs.forEach(function (inputItem) {
+    var Item = findCartItem(cartItems, inputItem.barcode);
+    if (Item) {
+      Item.count++;
+    }
+    else {
+      cartItems.push({item: inputItem, count: 1});
+    }
+  });
+}
+
 function findCartItem(cartItems, barcode) {
-  var foundCartItem=undefined;
+  var foundCartItem = undefined;
 
   cartItems.forEach(function (cartItem) {
     if (cartItem.item.barcode === barcode) {
@@ -33,6 +38,7 @@ function findCartItem(cartItems, barcode) {
   });
   return foundCartItem;
 }
+
 
 function getSubTotal(count, price) {
   return count * price;

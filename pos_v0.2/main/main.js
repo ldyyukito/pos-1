@@ -1,18 +1,11 @@
 //TODO: Please write code in this file.
-function printReceipt(inputs) {
+function printReceipt(barcodes) {
+
   var cartItems = [];
   var allItems = loadAllItems();
 
-  inputs.forEach(function (inputItem) {
-    var cartItem = findCartItem(cartItems, inputItem);
-    if (cartItem) {
-      cartItem.count++;
-    }
-    else {
-      cartItems.push({item: getItem(allItems, inputItem), count: 1});
-    }
-  });
-
+  itemResults = getAllItems(barcodes, allItems);
+  getCartItems(itemResults, cartItems);
 
   var receipt =
     '***<没钱赚商店>收据***\n' +
@@ -25,17 +18,37 @@ function printReceipt(inputs) {
 }
 
 
-function getItem(allItems, inputItem) {
-  var founditem = undefined;
+function getAllItems(barcodes, allItems) {
+  var cartItems = [];
+  barcodes.forEach(function (barcode) {
+    item = findItems(barcode, allItems);
+    if (item)
+      cartItems.push(item);
+  });
+  return cartItems;
+}
 
+function findItems(barcode, allItems) {
+  var foundItems=undefined;
   allItems.forEach(function (item) {
-    if (item.barcode === inputItem) {
-      founditem = item;
-      return false;
+    if (item.barcode === barcode) {
+      foundItems = item;
+      return true;
     }
   });
+  return foundItems;
+}
 
-  return founditem;
+function getCartItems(cartInputs, cartItems) {
+  cartInputs.forEach(function (inputItem) {
+    var Item = findCartItem(cartItems, inputItem.barcode);
+    if (Item) {
+      Item.count++;
+    }
+    else {
+      cartItems.push({item: inputItem, count: 1});
+    }
+  });
 }
 
 function findCartItem(cartItems, barcode) {
@@ -47,9 +60,9 @@ function findCartItem(cartItems, barcode) {
       return false;
     }
   });
-
   return foundCartItem;
 }
+
 
 function getSubTotal(count, price) {
   return count * price;
