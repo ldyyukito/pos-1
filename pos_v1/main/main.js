@@ -1,12 +1,12 @@
 //TODO: Please write code in this file.
-function printReceipt(barcodes) {
+function printReceipt(Tags) {
   var cartItems = [];
   var allItems = loadAllItems();
-  var allItemsResults = getAllItems(barcodes, allItems);
-  getCartItems(allItemsResults, cartItems);
+  var allItemsResults = getAllItems(Tags, allItems);
 
+  getCartItems(allItemsResults, cartItems);
   setPromotions(cartItems);
-  receipt = getReceipt(cartItems);
+  var receipt = getReceipt(cartItems);
 
   console.log(receipt);
 }
@@ -74,22 +74,22 @@ function getPromotionItem(item, promotion) {
   });
 }
 
-function getAllItems(barcodes, allItems) {
+function getAllItems(Tags, allItems) {
   var cartItems = [];
   var index = 0;
   var newBarcode;
 
-  barcodes.forEach(function (barcode) {
-    if ((index = barcode.indexOf('-')) === -1) {
-      item = findItems(barcode, allItems);
+  Tags.forEach(function (tag) {
+    if ((index = tag.indexOf('-')) === -1) {
+      item = findItems(tag, allItems);
       if (item)
         cartItems.push(item);
     }
     else {
-      newBarcode = barcode.substring(0, index);
+      newBarcode = tag.substring(0, index);
       item = findItems(newBarcode, allItems);
       if (item) {
-        for (var x = 0; x < barcode.charAt(index + 1); x++)
+        for (var x = 0; x < tag.charAt(index + 1); x++)
           cartItems.push(item);
       }
     }
