@@ -6,7 +6,12 @@ function printReceipt(barcodes) {
 
   buyTwoOneFree(allItemsResults);
   getCartItems(allItemsResults, cartItems);
+  receipt = getReceipt(cartItems);
 
+  console.log(receipt);
+}
+
+function getReceipt(cartItems) {
   var receipt =
     '***<没钱赚商店>收据***\n' +
     getItemsString(cartItems) +
@@ -17,8 +22,7 @@ function printReceipt(barcodes) {
     '总计：' + formatPrice(getAmount(cartItems)) + '(元)\n' +
     '节省：' + formatPrice(getSave(cartItems)) + '(元)\n' +
     '**********************';
-
-  console.log(receipt);
+  return receipt;
 }
 
 function getFreeItem(cartItems) {
