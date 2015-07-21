@@ -3,9 +3,9 @@ function printReceipt(barcodes) {
   var cartItems = [];
   var allItems = loadAllItems();
   var allItemsResults = getAllItems(barcodes, allItems);
-
-  buyTwoOneFree(allItemsResults);
   getCartItems(allItemsResults, cartItems);
+
+  setPromotions(cartItems);
   receipt = getReceipt(cartItems);
 
   console.log(receipt);
@@ -27,35 +27,49 @@ function getReceipt(cartItems) {
 
 function getFreeItem(cartItems) {
   var Freeitem = "";
+  var isfree;
   cartItems.forEach(function (cartItem) {
-    if (cartItem.item.freeFlag === 1) {
-      Freeitem += '名称：' + cartItem.item.name + '，数量：1' + cartItem.item.unit + '\n';
+    cartItem.freeCount > 0 ? isfree = true : isfree = false;
+    if (isfree) {
+      Freeitem += '名称：' + cartItem.item.name + '，数量：' + cartItem.freeCount + cartItem.item.unit + '\n';
     }
   });
+
   return Freeitem;
 }
 
 function getSave(cartItems) {
   var savePrice = 0;
+
   cartItems.forEach(function (cartItem) {
-    if (cartItem.item.freeFlag === 1)
+    if (cartItem.freeCount > 0)
       savePrice += cartItem.item.price;
   });
   return savePrice;
 }
 
-function buyTwoOneFree(cartItems) {
+function setPromotions(cartItems) {
   var promotions = loadPromotions();
+  promotions.forEach(function (promotion) {
+    if (promotion.type === 'BUY_TWO_GET_ONE_FREE') {
+      buyTwoOneFree(promotion, cartItems);
+    }
+  });
+
+}
+
+
+function buyTwoOneFree(promotion, cartItems) {
 
   cartItems.forEach(function (item) {
-    getPromotionItem(item, promotions);
+    getPromotionItem(item, promotion);
   });
 }
 
-function getPromotionItem(item, promotions) {
-  promotions[0].barcodes.forEach(function (barcode) {
-    if (barcode === item.barcode) {
-      item.freeFlag = 1;
+function getPromotionItem(item, promotion) {
+  promotion.barcodes.forEach(function (barcode) {
+    if (barcode === item.item.barcode) {
+      item.freeCount = Math.floor(item.count / 3);
     }
   });
 }
@@ -101,7 +115,7 @@ function getCartItems(cartInputs, cartItems) {
       Item.count++;
     }
     else {
-      cartItems.push({item: inputItem, count: 1});
+      cartItems.push({item: inputItem, count: 1, freeCount: 0});
     }
   });
 }
@@ -120,12 +134,8 @@ function findCartItem(cartItems, barcode) {
 }
 
 
-function getSubTotal(count, price, freeFlag) {
-
-  if (freeFlag === 1)
-    return (count - 1) * price;
-  else
-    return count * price;
+function getSubTotal(count, freecount, price) {
+  return (count - freecount) * price;
 
 }
 
@@ -133,7 +143,7 @@ function getAmount(cartItems) {
   var amount = 0;
 
   cartItems.forEach(function (item) {
-    amount += getSubTotal(item.count, item.item.price, item.item.freeFlag);
+    amount += getSubTotal(item.count, item.freeCount, item.item.price);
   });
 
   return amount;
@@ -147,7 +157,7 @@ function getItemsString(cartitems) {
       '名称：' + cartitem.item.name +
       '，数量：' + cartitem.count + cartitem.item.unit +
       '，单价：' + formatPrice(cartitem.item.price) +
-      '(元)，小计：' + formatPrice(getSubTotal(cartitem.count, cartitem.item.price, cartitem.item.freeFlag)) + '(元)\n';
+      '(元)，小计：' + formatPrice(getSubTotal(cartitem.count, cartitem.freeCount, cartitem.item.price)) + '(元)\n';
   });
 
   return itemsString;
