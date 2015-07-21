@@ -5,6 +5,7 @@ function printReceipt(barcodes) {
   var allItems = loadAllItems();
 
   itemResults = getAllItems(barcodes, allItems);
+
   getCartItems(itemResults, cartItems);
 
   var receipt =
