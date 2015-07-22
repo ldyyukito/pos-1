@@ -16,7 +16,7 @@ Tag.prototype.calculateCount = function (barcode) {
   var count = barcode.split('-');
 
   if (existHyphen) {
-    return count[1];
+    return parseFloat(count[1]);
   }
   else {
     return 1;

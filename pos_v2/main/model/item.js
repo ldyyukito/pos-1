@@ -4,3 +4,7 @@ function Item(barcode, name, unit, price) {
   this.unit = unit;
   this.price = price || 0.00;
 }
+
+Item.prototype.getBarcode = function (barcode) {
+  return this.barcode;
+}
