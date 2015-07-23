@@ -1,18 +1,8 @@
-//TODO: Please write code in this file.
-function printReceipt(Tags) {
+function printReceipt(tags) {
+  var cart = new Cart();
+  var scanner = new Scanner();
+  var pos = new Pos(scanner, cart);
+  pos.scan(tags);
+  console.log(pos.printReceipt());
 
-  var tag = new Tag(Tags);
-  var cart = new Cart(tag.getTags());
-  var cartItems = cart.getCartItems();
-  var promotions = loadPromotions();
-
-  setPromotions(promotions, cartItems);
-  var receipt = new Receipt(cartItems);
-  receipt.print();
-}
-
-function setPromotions(promotions, CartItems) {
-  for (var i = 0; i < promotions.length; i++) {
-    promotions[i].setPromotion(CartItems);
-  }
 }

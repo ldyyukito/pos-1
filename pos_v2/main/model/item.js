@@ -5,7 +5,7 @@ function Item(barcode, name, unit, price) {
   this.price = price || 0.00;
 }
 
-Item.prototype.getBarcode = function () {
+Item.prototype.getItemBarcode = function () {
   return this.barcode;
 }
 
@@ -19,4 +19,17 @@ Item.prototype.getUnit = function () {
 
 Item.prototype.getPrice = function () {
   return this.price;
+}
+
+Item.find = function (barcode) {
+  var items = Item.all();
+  for (var i = 0; i < items.length; i++) {
+    if (barcode === items[i].getItemBarcode())
+      return items[i];
+  }
+
+}
+
+Item.all = function () {
+  return loadAllItems();
 }

@@ -10,29 +10,3 @@ Promotion.prototype.getType = function () {
 Promotion.prototype.getBarcodes = function () {
   return this.barcodes;
 };
-
-Promotion.prototype.setPromotion = function (CartItems) {
-  if (this.getType() === 'BUY_TWO_GET_ONE_FREE') {
-    this.buyTwoOneFree(this.getBarcodes(), CartItems);
-  }
-};
-
-Promotion.prototype.buyTwoOneFree = function (barcodes, cartItems) {
-  var who = this;
-  cartItems.forEach(function (cartItem) {
-    who.getPromotionItem(cartItem, barcodes);
-  });
-};
-
-Promotion.prototype.getPromotionItem = function (cartItem, barcodes) {
-
-  for (var i = 0; i < barcodes.length; i++) {
-    if (barcodes[i] === cartItem.item.getBarcode()) {
-      cartItem.freeCount = Math.floor(cartItem.count / 3);
-      break;
-    }
-    else {
-      cartItem.freeCount = 0;
-    }
-  }
-};
