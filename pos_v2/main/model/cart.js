@@ -4,7 +4,6 @@
 function Cart(Tags) {
   this.cartItems = [];
   this.init(Tags);
-  //console.log(this.cartItems);
 }
 
 Cart.prototype.getCartItems = function () {
@@ -19,7 +18,6 @@ Cart.prototype.getAllItems = function () {
 Cart.prototype.init = function (Tags) {
   var allItems = this.getAllItems();
   this.setCartItems(Tags, allItems);
-  //console.log(this.cartItems);
   this.cartItems = this.countSameItems();
 };
 

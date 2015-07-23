@@ -32,7 +32,6 @@ Promotion.prototype.buyTwoOneFree = function (barcodes, cartItems) {
 Promotion.prototype.getPromotionItem = function (cartItem, barcodes) {
 
   for (var i = 0; i < barcodes.length; i++) {
-
     if (barcodes[i] === cartItem.item.getBarcode()) {
       cartItem.freeCount = Math.floor(cartItem.count / 3);
       break;
@@ -41,14 +40,4 @@ Promotion.prototype.getPromotionItem = function (cartItem, barcodes) {
       cartItem.freeCount = 0;
     }
   }
-
-  /*
-   barcodes.forEach(function (barcode) {
-   if (barcode === item.item.getBarcode()) {
-   item.freeCount = Math.floor(item.count / 3);
-   }
-   else {
-   item.freeCount = 0;
-   }
-   });*/
 };

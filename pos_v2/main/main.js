@@ -2,21 +2,13 @@
 function printReceipt(Tags) {
 
   var tag = new Tag(Tags);
-
   var cart = new Cart(tag.getTags());
-
   var cartItems = cart.getCartItems();
-
   var promotions = loadPromotions();
 
-
   setPromotions(promotions, cartItems);
-  //console.log(cartItems);
-
-  // console.log(cartItems);
   var receipt = new Receipt(cartItems);
   receipt.print();
-
 }
 
 

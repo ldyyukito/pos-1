@@ -45,21 +45,6 @@ Receipt.prototype.getItemsString = function () {
       '(元)，小计：' + formatPrice(this.getSubTotal(this.cartItems[i].count, this.cartItems[i].freeCount, this.cartItems[i].item.getPrice())) + '(元)\n';
 
   }
-
-  /*this.cartItems.forEach(function (cartitem) {
-   itemsString +=
-   '名称：' + cartitem.item.getName() +
-   '，数量：' + cartitem.count + cartitem.item.getUnit() ;
-   */
-  /*'*/
-  /**/
-  /*，单价：' + formatPrice(cartitem.item.price) +
-   '(元)，小计：' + formatPrice(getSubTotal(cartitem.count, cartitem.freeCount, cartitem.item.price)) + '(元)\n';*/
-  /**/
-  /*
-   */
-  /*});*/
-
   return itemsString;
 };
 
@@ -110,7 +95,6 @@ Receipt.prototype.dateDigitToString = function (num) {
 
 function formatPrice(price) {
   return price.toFixed(2);
-  //return price;
 }
 
 
