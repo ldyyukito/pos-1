@@ -5,11 +5,10 @@ function Receipt(cartItems) {
   this.cartItems = cartItems;
 }
 
-
 Receipt.prototype.print = function () {
   var receiptString =
     '***<没钱赚商店>收据***\n' +
-    '打印时间：' + this.getTimeNow() + '\n' +
+    '打印时间：' + this.getNowTime() + '\n' +
     '----------------------\n' +
     this.getItemsString() +
     '----------------------\n' +
@@ -35,16 +34,16 @@ Receipt.prototype.getAmount = function () {
 };
 
 Receipt.prototype.getItemsString = function () {
-
   var itemsString = '';
+
   for (var i = 0; i < this.cartItems.length; i++) {
     itemsString +=
       '名称：' + this.cartItems[i].item.getName() +
       '，数量：' + this.cartItems[i].count + this.cartItems[i].item.getUnit() +
       '，单价：' + formatPrice(this.cartItems[i].item.price) +
       '(元)，小计：' + formatPrice(this.getSubTotal(this.cartItems[i].count, this.cartItems[i].freeCount, this.cartItems[i].item.getPrice())) + '(元)\n';
-
   }
+
   return itemsString;
 };
 
@@ -76,7 +75,7 @@ Receipt.prototype.getSave = function () {
   return savePrice;
 };
 
-Receipt.prototype.getTimeNow = function () {
+Receipt.prototype.getNowTime = function () {
   var currentDate = new Date(),
     year = this.dateDigitToString(currentDate.getFullYear()),
     month = this.dateDigitToString(currentDate.getMonth() + 1),
@@ -91,7 +90,6 @@ Receipt.prototype.getTimeNow = function () {
 Receipt.prototype.dateDigitToString = function (num) {
   return num < 10 ? '0' + num : num;
 };
-
 
 function formatPrice(price) {
   return price.toFixed(2);
