@@ -5,7 +5,7 @@ function Receipt(cartItems) {
 Receipt.prototype.print = function () {
   var receiptString =
     '***<没钱赚商店>收据***\n' +
-    '打印时间：' + Utlis.time() + '\n' +
+    '打印时间：' + Utlis.Time() + '\n' +
     '----------------------\n' +
     this.getItemsString() +
     '----------------------\n' +
