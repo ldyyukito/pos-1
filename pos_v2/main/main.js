@@ -5,14 +5,18 @@ function printReceipt(Tags) {
 
   var cart = new Cart(tag.getTags());
 
-  var CartItems = cart.getCartItems();
+  var cartItems = cart.getCartItems();
 
   var promotions = loadPromotions();
 
-  setPromotions(promotions, CartItems);
 
-  var receipt = new Receipt(CartItems);
-  receipt.getReceipt();
+  setPromotions(promotions, cartItems);
+  //console.log(cartItems);
+
+  // console.log(cartItems);
+  var receipt = new Receipt(cartItems);
+  receipt.print();
+
 }
 
 

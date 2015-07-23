@@ -4,7 +4,7 @@
 function Cart(Tags) {
   this.cartItems = [];
   this.init(Tags);
-
+  //console.log(this.cartItems);
 }
 
 Cart.prototype.getCartItems = function () {
