@@ -11,7 +11,6 @@ function printReceipt(Tags) {
   receipt.print();
 }
 
-
 function setPromotions(promotions, CartItems) {
   for (var i = 0; i < promotions.length; i++) {
     promotions[i].setPromotion(CartItems);

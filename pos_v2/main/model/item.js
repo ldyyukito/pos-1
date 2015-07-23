@@ -13,7 +13,6 @@ Item.prototype.getName = function () {
   return this.name;
 }
 
-
 Item.prototype.getUnit = function () {
   return this.unit;
 }

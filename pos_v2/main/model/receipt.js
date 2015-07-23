@@ -22,10 +22,10 @@ Receipt.prototype.print = function () {
   console.log(receiptString);
 };
 
-
 Receipt.prototype.getAmount = function () {
   var amount = 0;
   var who = this;
+
   this.cartItems.forEach(function (item) {
     amount += who.getSubTotal(item.count, item.freeCount, item.item.getPrice());
   });
@@ -52,10 +52,10 @@ Receipt.prototype.getSubTotal = function (count, freecount, price) {
   return (count - freecount) * price;
 };
 
-
 Receipt.prototype.getFreeItem = function () {
   var Freeitem = "";
   var isfree;
+
   this.cartItems.forEach(function (cartItem) {
     cartItem.freeCount > 0 ? isfree = true : isfree = false;
     if (isfree) {
@@ -68,6 +68,7 @@ Receipt.prototype.getFreeItem = function () {
 
 Receipt.prototype.getSave = function () {
   var savePrice = 0;
+
   this.cartItems.forEach(function (cartItem) {
     if (cartItem.freeCount > 0)
       savePrice += cartItem.item.getPrice();
@@ -84,6 +85,7 @@ Receipt.prototype.getNowTime = function () {
     minute = this.dateDigitToString(currentDate.getMinutes()),
     second = this.dateDigitToString(currentDate.getSeconds()),
     formattedDateString = year + '年' + month + '月' + date + '日 ' + hour + ':' + minute + ':' + second;
+    
   return formattedDateString;
 };
 
@@ -94,16 +96,3 @@ Receipt.prototype.dateDigitToString = function (num) {
 function formatPrice(price) {
   return price.toFixed(2);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

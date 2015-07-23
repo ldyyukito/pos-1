@@ -14,7 +14,6 @@ Cart.prototype.getAllItems = function () {
   return loadAllItems();
 };
 
-
 Cart.prototype.init = function (Tags) {
   var allItems = this.getAllItems();
   this.setCartItems(Tags, allItems);
@@ -22,9 +21,9 @@ Cart.prototype.init = function (Tags) {
 };
 
 Cart.prototype.countSameCartItems = function () {
-
   var who = this;
   var countSameCartItems = [];
+  
   this.cartItems.forEach(function (cartItem) {
     var item = who.find(cartItem, countSameCartItems);
     if (item) {

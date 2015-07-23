@@ -10,7 +10,6 @@ Tag.prototype.getTags = function () {
   return this.Tags;
 };
 
-
 Tag.prototype.calculateCount = function (barcode) {
   var existHyphen = isHyphen(barcode);
   var count = barcode.split('-');
@@ -24,6 +23,7 @@ Tag.prototype.calculateCount = function (barcode) {
 
 Tag.prototype.getBarcode = function (barcode) {
   var existHyphen = isHyphen(barcode);
+
   if (existHyphen) {
     return analyseBarcode(barcode);
   }
@@ -34,6 +34,7 @@ Tag.prototype.getBarcode = function (barcode) {
 
 Tag.prototype.addToTags = function (barcodes) {
   var who = this;
+  
   barcodes.forEach(function (barcode) {
     var countResult = who.calculateCount(barcode);
     var barcodeResult = who.getBarcode(barcode);
