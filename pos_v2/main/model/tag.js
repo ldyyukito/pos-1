@@ -3,7 +3,7 @@
  */
 function Tag(barcodes) {
   this.Tags = [];
-  this.addTags(barcodes);
+  this.addToTags(barcodes);
 }
 
 Tag.prototype.getTags = function () {
@@ -14,7 +14,6 @@ Tag.prototype.getTags = function () {
 Tag.prototype.calculateCount = function (barcode) {
   var existHyphen = isHyphen(barcode);
   var count = barcode.split('-');
-
   if (existHyphen) {
     return parseFloat(count[1]);
   }
@@ -23,24 +22,22 @@ Tag.prototype.calculateCount = function (barcode) {
   }
 };
 
-Tag.prototype.analyseBarcode = function (barcode) {
+Tag.prototype.getBarcode = function (barcode) {
   var existHyphen = isHyphen(barcode);
   if (existHyphen) {
-    return getBarcode(barcode);
+    return analyseBarcode(barcode);
   }
   else {
     return barcode;
   }
-
-
 };
 
-Tag.prototype.addTags = function (barcodes) {
-  var Tag = this;
+Tag.prototype.addToTags = function (barcodes) {
+  var who = this;
   barcodes.forEach(function (barcode) {
-    var count = Tag.calculateCount(barcode);
-    var barcodeResult = Tag.analyseBarcode(barcode);
-    Tag.Tags.push({barcode: barcodeResult, count: count});
+    var countResult = who.calculateCount(barcode);
+    var barcodeResult = who.getBarcode(barcode);
+    who.Tags.push({barcode: barcodeResult, count: countResult});
   });
 
 };
@@ -53,6 +50,6 @@ function getHyphenPositon(barcode) {
   return barcode.indexOf('-');
 }
 
-function getBarcode(barcode) {
+function analyseBarcode(barcode) {
   return barcode.substring(0, getHyphenPositon(barcode));
 }
