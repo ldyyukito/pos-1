@@ -18,30 +18,30 @@ Cart.prototype.getAllItems = function () {
 Cart.prototype.init = function (Tags) {
   var allItems = this.getAllItems();
   this.setCartItems(Tags, allItems);
-  this.cartItems = this.countSameItems();
+  this.cartItems = this.countSameCartItems();
 };
 
-Cart.prototype.countSameItems = function () {
+Cart.prototype.countSameCartItems = function () {
 
   var who = this;
-  var temp = [];
+  var countSameCartItems = [];
   this.cartItems.forEach(function (cartItem) {
-    var item = who.find(cartItem, temp);
+    var item = who.find(cartItem, countSameCartItems);
     if (item) {
       item.count++;
     }
     else {
-      temp.push(cartItem);
+      countSameCartItems.push(cartItem);
     }
   });
-  return temp;
+  return countSameCartItems;
 };
 
-Cart.prototype.find = function (cartItem, temp) {
+Cart.prototype.find = function (cartItem, countSameCartItems) {
   var foundItem = undefined;
-  temp.forEach(function (n) {
-    if (n.item.getBarcode() === cartItem.item.getBarcode()) {
-      foundItem = n;
+  countSameCartItems.forEach(function (SameCartItem) {
+    if (SameCartItem.item.getBarcode() === cartItem.item.getBarcode()) {
+      foundItem = SameCartItem;
       return true;
     }
   });
@@ -55,11 +55,12 @@ Cart.prototype.setCount = function (tags) {
 };
 
 Cart.prototype.setCartItems = function (tags, allItems) {
-  var cart = this;
+  var who = this;
+
   tags.forEach(function (tag) {
-    var item = cart.findItem(tag.barcode, allItems);
+    var item = who.findItem(tag.barcode, allItems);
     if (item) {
-      cart.cartItems.push({item: item, count: cart.setCount(tag)});
+      who.cartItems.push({item: item, count: who.setCount(tag)});
     }
   });
 
@@ -67,6 +68,7 @@ Cart.prototype.setCartItems = function (tags, allItems) {
 
 Cart.prototype.findItem = function (barcode, allItems) {
   var foundItem = undefined;
+
   allItems.forEach(function (item) {
     if (item.getBarcode() === barcode) {
       foundItem = item;
