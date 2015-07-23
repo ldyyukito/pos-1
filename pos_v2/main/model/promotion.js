@@ -3,10 +3,28 @@ function Promotion(type, barcodes) {
   this.barcodes = barcodes || [];
 }
 
-Promotion.prototype.getType = function () {
+/*Promotion.prototype.getType = function () {
   return this.type;
 };
 
 Promotion.prototype.getBarcodes = function () {
   return this.barcodes;
+ };*/
+
+Promotion.findPromotionByType = function (promotionType) {
+  var promotions = Promotion.getPromotions();
+  for (var i = 0; i < promotions.length; i++) {
+    if (promotions[i].type === promotionType) {
+      return promotions[i];
+    }
+  }
+};
+
+Promotion.findBarcodes = function (promotion) {
+
+  return promotion.barcodes;
+};
+
+Promotion.getPromotions = function () {
+  return loadPromotions();
 };

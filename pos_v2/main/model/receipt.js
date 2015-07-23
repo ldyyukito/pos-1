@@ -1,5 +1,5 @@
-function Receipt(cart) {
-  this.cart = cart;
+function Receipt(cartItems) {
+  this.cartItems = cartItems;
 }
 
 Receipt.prototype.print = function () {
@@ -17,3 +17,19 @@ Receipt.prototype.print = function () {
     '**********************';
   console.log(receiptString);
 };
+
+
+Receipt.prototype.getItemsString = function () {
+  var itemsString = '';
+
+  for (var i = 0; i < this.cartItems.length; i++) {
+    itemsString +=
+      '名称：' + this.cartItems[i].item.getName() +
+      '，数量：' + this.cartItems[i].count + this.cartItems[i].item.getUnit() +
+      '，单价：' + formatPrice(this.cartItems[i].item.price) +
+      '(元)，小计：' + formatPrice(this.getSubTotal(this.cartItems[i].count, this.cartItems[i].freeCount, this.cartItems[i].item.getPrice())) + '(元)\n';
+  }
+
+  return itemsString;
+};
+

@@ -1,6 +1,7 @@
 function CartItem(item,count){
   this.item=item;
   this.count=count;
+  this.freeCount = 0;
 }
 
 CartItem.prototype.getPrice=function(){

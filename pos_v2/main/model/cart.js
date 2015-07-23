@@ -1,5 +1,6 @@
 function Cart() {
   this.cartItems = [];
+
 }
 
 
@@ -20,3 +21,7 @@ Cart.prototype.findCartItem = function (barcode) {
     }
   }
 };
+
+
+
+

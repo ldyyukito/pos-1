@@ -9,9 +9,15 @@ Pos.prototype.scan=function(tags){
     var cartItem=this.scanner.scan(tags[i]);
     this.cart.addCartItem(cartItem);
   }
+
+};
+
+Pos.prototype.process = function () {
+  this.cart = PromotionHandle.setPromotion(this.cart.cartItems);
+
 };
 
 Pos.prototype.printReceipt=function(){
- var receipt= new Receipt(this.cart);
+  var receipt = new Receipt(this.cart);
   return receipt.print();
 };
