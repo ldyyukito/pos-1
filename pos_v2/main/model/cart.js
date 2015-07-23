@@ -3,7 +3,6 @@ function Cart() {
 
 }
 
-
 Cart.prototype.addCartItem = function (cartItem) {
   var item = this.findCartItem(cartItem.getCartItemBarcode());
   if (item) {

@@ -19,5 +19,6 @@ Pos.prototype.process = function () {
 
 Pos.prototype.printReceipt=function(){
   var receipt = new Receipt(this.cart);
+
   return receipt.print();
 };
